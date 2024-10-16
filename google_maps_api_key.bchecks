@@ -1,0 +1,15 @@
+ metadata:
+    language: v1-beta
+    name: "Google Maps API Key Found"
+    description: "Looks in responses to see if there are Google Maps API keys"
+    tags: "verbose"
+
+given response then
+    if {latest.request.body} matches "AIza[0-9A-Za-z\-_]{35}" then
+        report issue:
+            severity: low
+            confidence: firm
+            detail: "Google Maps API key found."
+            remediation: "Check using gmapapiscanner."
+
+    end if
