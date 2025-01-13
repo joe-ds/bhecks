@@ -1,15 +1,14 @@
  metadata:
-    language: v1-beta
+    language: v2-beta
     name: "Verbose Headers"
     description: "Looks in responses to see if there are verbose headers."
     tags: "verbose"
 
 given response then
-    if {latest.response.headers} matches "[sS]erver: .*?\d.*?" or {latest.response.headers} matches "[xX]-[pP]owered-[bB]y: .*?\d.*?" then
+    if {to_lower({latest.response.headers})} matches "server: .*?\d.*?" or {to_lower({latest.response.headers})} matches "x-powered-by: .*?\d.*?" then
         report issue:
             severity: low
             confidence: firm
             detail: "Potential verbose header found."
             remediation: "Check for version numbers."
-
     end if
